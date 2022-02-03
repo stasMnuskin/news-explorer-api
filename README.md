@@ -1,17 +1,11 @@
-# Logs
-logs
-*.log
-npm-debug.log*
+## Domain
 
-# Dependency directory
-node_modules
+ https://api.stasnews.students.nomoreparties.sbs
 
-# Optional npm cache directory
-.npm
+## This is the Backend of the news-explorer project (final practicum100 project)
 
-# System files and IDE settings folders
-.DS_Store
-.idea
-.vscode
-.env
-
+## Running the Project  
+  
+`npm run start` — to launch the server.  
+  
+`npm run dev` — to launch the server with the hot reload feature. 

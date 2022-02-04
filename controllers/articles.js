@@ -8,7 +8,7 @@ module.exports.getArticles = (req, res, next) => {
   Article.find({})
     .then((articles) => {
       if (articles) {
-        res.send({ data: articles });
+        res.send(articles);
       } else {
         throw new Status404Errors('Requested resource not found');
       }
@@ -42,15 +42,20 @@ module.exports.deleteArticle = (req, res, next) => {
   Article.findById(articleId)
     .select('+owner')
     .then((article) => {
-      if (!article) {
-        throw new Status404Errors('No Article To Delete');
-      }
       if (article.owner.toString() === req.user._id.toString()) {
         Article.deleteOne(article).then(() => {
           res.status(200).send(article);
         });
       } else {
         throw new Status403Errors('You Are Not Authorized');
+      }
+      if (!article) {
+        throw new Status404Errors('No Article To Delete');
+      }
+    })
+    .catch((err) => {
+      if (err.name === 'TypeError') {
+        res.status(404).send('No Article To Delete');
       }
     })
     .catch((err) => {

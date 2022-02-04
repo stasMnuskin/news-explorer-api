@@ -19,6 +19,7 @@ articleRouter.post('/', celebrate({
     image: Joi.string().required().uri(),
   }),
 }), createArticle);
+// articleRouter.post('/', createArticle);
 
 articleRouter.delete('/:articleId', celebrate({
   headers: Joi.object().keys({

@@ -2,10 +2,11 @@ const Article = require('../models/article');
 const Status400Errors = require('../errors/status400Errors');
 const Status403Errors = require('../errors/status403Errors');
 const Status404Errors = require('../errors/status404Errors');
+const article = require('../models/article');
 // const Status401Errors = require('../errors/Status401Errors');
 
 module.exports.getArticles = (req, res, next) => {
-  Article.find({})
+  Article.find({ owner: req.user._id })
     .then((articles) => {
       if (articles) {
         res.send(articles);
@@ -24,8 +25,8 @@ module.exports.createArticle = (req, res, next) => {
   Article.create({
     keyword, title, text, date, source, link, image, owner,
   })
-    .then((article) => {
-      if (!article) {
+    .then((newArticle) => {
+      if (!newArticle) {
         throw new Status404Errors('Wrong Data Passed');
       }
       res.send(article);
@@ -41,26 +42,18 @@ module.exports.deleteArticle = (req, res, next) => {
   const { articleId } = req.params;
   Article.findById(articleId)
     .select('+owner')
-    .then((article) => {
-      if (article.owner.toString() === req.user._id.toString()) {
-        Article.deleteOne(article).then(() => {
-          res.status(200).send(article);
+    .then((articleToDelete) => {
+      if (articleToDelete.owner.toString() === req.user._id.toString()) {
+        Article.deleteOne(articleToDelete).then(() => {
+          res.status(200).send(articleToDelete);
         });
       } else {
         throw new Status403Errors('You Are Not Authorized');
       }
-      if (!article) {
-        throw new Status404Errors('No Article To Delete');
-      }
-    })
-    .catch((err) => {
-      if (err.name === 'TypeError') {
-        res.status(404).send('No Article To Delete');
-      }
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        throw new Status400Errors('Invalid Id');
+        throw new Status404Errors('No Article To Delete');
       }
     })
     .catch(next);

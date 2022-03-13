@@ -13,15 +13,21 @@ const auth = require('../middleware/auth');
 //   }),
 // }), login);
 
-appRouter.post('/signin', login);
-
-appRouter.post('/signup', celebrate({
+appRouter.post('/signin', celebrate({
   body: Joi.object().keys({
-    // email: Joi.string().required(),
-    password: Joi.string().min(8).required(),
-    name: Joi.string().required().min(2).max(30),
+    email: Joi.string().email().required(),
+    password: Joi.string().required().min(8),
   }),
-}), createUser);
+}), login);
+
+// appRouter.post('/signup', celebrate({
+//   body: Joi.object().keys({
+//     // email: Joi.string().required(),
+//     password: Joi.string().min(8).required(),
+//     name: Joi.string().required().min(2).max(30),
+//   }),
+// }), createUser);
+appRouter.post('/signup', createUser);
 
 appRouter.use('/articles', auth, articlesRouter);
 appRouter.use('/users', auth, userRouter);

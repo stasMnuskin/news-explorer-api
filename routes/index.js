@@ -20,13 +20,13 @@ appRouter.post('/signin', celebrate({
   }),
 }), login);
 
-// appRouter.post('/signup', celebrate({
-//   body: Joi.object().keys({
-//     password: Joi.string().min(8).required(),
-//     name: Joi.string().required().min(2).max(30),
-//   }),
-// }), createUser);
-appRouter.post('/signup', createUser);
+appRouter.post('/signup', celebrate({
+  body: Joi.object().keys({
+    password: Joi.string().min(8).required(),
+    name: Joi.string().required().min(2).max(30),
+  }),
+}), createUser);
+// appRouter.post('/signup', createUser);
 
 appRouter.use('/articles', auth, articlesRouter);
 appRouter.use('/users', auth, userRouter);

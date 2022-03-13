@@ -18,6 +18,8 @@ const app = express();
 mongoose.connect(mongoAddress, {
   useNewUrlParser: true,
   useUnifiedTopology: false,
+}).catch((err) => {
+  console.log(err);
 });
 
 app.use(bodyParser.json());

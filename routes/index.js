@@ -6,12 +6,14 @@ const articlesRouter = require('./articles');
 const userRouter = require('./users');
 const auth = require('../middleware/auth');
 
-appRouter.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().email().required(),
-    password: Joi.string().required().min(8),
-  }),
-}), login);
+// appRouter.post('/signin', celebrate({
+//   body: Joi.object().keys({
+//     email: Joi.string().email().required(),
+//     password: Joi.string().required().min(8),
+//   }),
+// }), login);
+
+appRouter.post('/signin', login);
 
 appRouter.post('/signup', celebrate({
   body: Joi.object().keys({

@@ -15,14 +15,15 @@ const auth = require('../middleware/auth');
 
 appRouter.post('/signin', celebrate({
   body: Joi.object().keys({
-    // email: Joi.string().email().required(),
+    email: Joi.string().email().required(),
     password: Joi.string().required().min(8),
   }),
 }), login);
 
 appRouter.post('/signup', celebrate({
   body: Joi.object().keys({
-    // password: Joi.string().min(8).required(),
+    email: Joi.string.required(),
+    password: Joi.string().min(8).required(),
     name: Joi.string().required().min(2).max(30),
   }),
 }), createUser);

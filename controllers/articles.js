@@ -2,7 +2,7 @@ const Article = require('../models/article');
 const Status400Errors = require('../errors/status400Errors');
 const Status403Errors = require('../errors/status403Errors');
 const Status404Errors = require('../errors/status404Errors');
-const article = require('../models/article');
+// const article = require('../models/article');
 // const Status401Errors = require('../errors/Status401Errors');
 
 module.exports.getArticles = (req, res, next) => {
@@ -29,7 +29,7 @@ module.exports.createArticle = (req, res, next) => {
       if (!newArticle) {
         throw new Status404Errors('Wrong Data Passed');
       }
-      res.send({ data: article });
+      res.send({ data: newArticle });
     }).catch((err) => {
       if (err.name === 'ValidationError') {
         throw new Status400Errors('Invalid URL');

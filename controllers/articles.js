@@ -9,7 +9,7 @@ module.exports.getArticles = (req, res, next) => {
   Article.find({ owner: req.user._id })
     .then((articles) => {
       if (articles) {
-        res.send(articles);
+        res.send({ data: articles });
       } else {
         throw new Status404Errors('Requested resource not found');
       }
@@ -29,7 +29,7 @@ module.exports.createArticle = (req, res, next) => {
       if (!newArticle) {
         throw new Status404Errors('Wrong Data Passed');
       }
-      res.send(article);
+      res.send({ data: article });
     }).catch((err) => {
       if (err.name === 'ValidationError') {
         throw new Status400Errors('Invalid URL');

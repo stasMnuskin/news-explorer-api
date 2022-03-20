@@ -45,7 +45,7 @@ module.exports.deleteArticle = (req, res, next) => {
     .then((articleToDelete) => {
       if (articleToDelete.owner.toString() === req.user._id.toString()) {
         Article.deleteOne(articleToDelete).then(() => {
-          res.status(200).send({data: articleToDelete});
+          res.status(200).send({ data: articleToDelete });
         });
       } else {
         throw new Status403Errors('You Are Not Authorized');
